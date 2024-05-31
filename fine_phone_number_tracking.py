@@ -54,7 +54,6 @@ def get_approx_coordinates_nominatim(location):
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
         }
         response = requests.get(url, headers=headers, timeout=10)
-        # response = requests.get(url, timeout=10)
         
         # Check if the request was successful
         if response.status_code == 403:
