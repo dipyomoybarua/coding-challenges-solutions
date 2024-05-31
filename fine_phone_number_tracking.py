@@ -1,20 +1,15 @@
 import phonenumbers
-from phonenumbers import timezone
-from phonenumbers import geocoder
-from phonenumbers import carrier
+from phonenumbers import timezone, geocoder, carrier
 import folium
 import argparse
 import os
 from colorama import init, Fore
-from opencage.geocoder import OpenCageGeocode
 from dotenv import load_dotenv
 import requests
+import time
 
 # Load environment variables from .env file
 load_dotenv()
-
-# Get the API key from the environment variables
-OPENCAGE_API_KEY = "OPENCAGE_API_KEY"
 
 # Initialize colorama for colored output
 init()
@@ -45,43 +40,71 @@ def process_number(phone_number):
         service_provider = carrier.name_for_number(parsed_number, "en")
         print(f"{Fore.GREEN}[+] Service Provider: {service_provider if service_provider else Fore.RED}[-] Unknown")
 
-    except phonenumbers.phonenumberutil.NumberParseException:
-        print(f"{Fore.RED}[-] Invalid phone number or network issue.")
+        return location
+
+    except phonenumbers.phonenumberutil.NumberParseException as e:
+        print(f"{Fore.RED}[-] Invalid phone number or network issue: {e}")
         exit(1)
 
-
-def get_approx_coordinates(location):
-    """Finds approximate geographical coordinates for a given location."""
+def get_approx_coordinates_nominatim(location):
+    """Finds approximate geographical coordinates for a given location using Nominatim."""
     try:
-        # Initialize the geocoder with the API key
-        geocoder = OpenCageGeocode(OPENCAGE_API_KEY)
+        url = f"https://nominatim.openstreetmap.org/search?q={location}&format=json"
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        }
+        response = requests.get(url, headers=headers, timeout=10)
+        # response = requests.get(url, timeout=10)
         
-        # Make a request to the geocoding API
-        results = geocoder.geocode(location)
+        # Check if the request was successful
+        if response.status_code == 403:
+            print(f"{Fore.RED}[-] Error: Received status code 403 (Forbidden).")
+            print(f"{Fore.YELLOW}[*] This might be due to rate limiting. Waiting for 60 seconds before retrying...")
+            time.sleep(60)
+            response = requests.get(url, headers=headers, timeout=10)
         
-        # Check if the API returned any results
-        if results:
-            # Extract latitude and longitude from the first result
-            latitude, longitude = results[0]['geometry']['lat'], results[0]['geometry']['lng']
-            print(f"[+] Latitude: {latitude}, Longitude: {longitude}")
+        if response.status_code != 200:
+            print(f"{Fore.RED}[-] Error: Received status code {response.status_code}")
+            return None, None
 
-            # Reverse geocode the coordinates to get the address
-            address = geocoder.reverse_geocode(latitude, longitude)
-            if address:
-                address = address[0]['formatted']
-                print(f"{Fore.LIGHTRED_EX}[+] Approximate Address: {address}")
-            else:
-                print(f"{Fore.RED}[-] No address found for the given coordinates.")
-            
+        results = response.json()
+        if results:
+            latitude = results[0]['lat']
+            longitude = results[0]['lon']
+            print(f"[+] Latitude: {latitude}, Longitude: {longitude}")
             return latitude, longitude
         else:
             print(f"{Fore.RED}[-] No results found for the location.")
             return None, None
-
-    except Exception as e:
+    except requests.RequestException as e:
         print(f"{Fore.RED}[-] Error getting location: {str(e)}")
         return None, None
+    except ValueError as e:
+        print(f"{Fore.RED}[-] Error parsing response JSON: {str(e)}")
+        return None, None
 
+def reverse_geocode_nominatim(latitude, longitude):
+    """Finds the approximate address for given coordinates using Nominatim."""
+    try:
+        url = f"https://nominatim.openstreetmap.org/reverse?lat={latitude}&lon={longitude}&format=json"
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        }
+        response = requests.get(url, headers=headers, timeout=10)
+
+        if response.status_code != 200:
+            print(f"{Fore.RED}[-] Error: Received status code {response.status_code}")
+            return None
+
+        result = response.json()
+        if result and 'display_name' in result:
+            return result['display_name']
+        else:
+            print(f"{Fore.RED}[-] No address found for the given coordinates.")
+            return None
+    except requests.RequestException as e:
+        print(f"{Fore.RED}[-] Error getting address: {str(e)}")
+        return None
 
 def draw_map(location, latitude, longitude):
     """Creates and saves a map centered around the given coordinates."""
@@ -133,14 +156,20 @@ def main():
         exit(1)
 
     # Process phone number, get coordinates, and draw map
-    process_number(args.phone_number)
-    latitude, longitude = get_approx_coordinates(args.phone_number)
-    
-    # Check if valid coordinates are available
-    if latitude is not None and longitude is not None:
-        draw_map(args.phone_number, latitude, longitude)
+    location = process_number(args.phone_number)
+    if location:
+        latitude, longitude = get_approx_coordinates_nominatim(location)
+        
+        # Check if valid coordinates are available
+        if latitude is not None and longitude is not None:
+            address = reverse_geocode_nominatim(latitude, longitude)
+            if address:
+                print(f"{Fore.LIGHTRED_EX}[+] Approximate Address: {address}")
+            draw_map(location, latitude, longitude)
+        else:
+            print(f"{Fore.RED}[-] Unable to draw map due to missing coordinates.")
     else:
-        print(f"{Fore.RED}[-] Unable to draw map due to missing coordinates.")
+        print(f"{Fore.RED}[-] No location information available.")
 
 if __name__ == "__main__":
     main()
