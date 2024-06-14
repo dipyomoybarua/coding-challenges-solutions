@@ -1,29 +1,24 @@
-function findPairWithSum(arr, targetSum) {
-    // Edge case: Handle empty array
-    if (!arr || arr.length === 0) {
-      return 'The array is empty.';
+function findPairsWithSum(arr, targetSum) {
+  const seenNumbers = new Map();
+  const result = [];
+
+  for (const currentNumber of arr) {
+    const complement = targetSum - currentNumber;
+
+    if (seenNumbers.has(complement)) {
+      result.push([complement, currentNumber]);
     }
-  
-    const seenNumbers = new Map();
-  
-    for (const num of arr) {
-      const complement = targetSum - num;
-  
-      if (seenNumbers.has(complement)) {
-        return `Pair found: (${complement}, ${num})`;
-      }
-  
-      seenNumbers.set(num, true);
-    }
-  
-    return 'No pair found that adds up to the target sum.';
+
+    seenNumbers.set(currentNumber, true);
   }
-  
-  // Example usage
-  const arr = [2, 5, 6, 7, 10, 17];
-  const targetSum = 7;
-  
-  console.log(findPairWithSum(arr, targetSum)); 
-  console.log(findPairWithSum([], targetSum)); 
-  console.log(findPairWithSum(arr, 20)); 
-  
+
+  // Remove duplicates by converting the result to a Set and then back to an array
+  return Array.from(new Set(result));
+}
+
+// Example usage
+const arr = [10, -4, 1, 5, 2, 4, 100, -94, 1, 2, 3, 4, 0];
+const targetSum = 6;
+
+const pairs = findPairsWithSum(arr, targetSum);
+console.log(pairs); 
