@@ -57,7 +57,7 @@ def determine_link_status(url):
         }
     return None
 
-def save_broken_links_to_json(broken_links, filename="broken_links_riyaz.json"):
+def save_broken_links_to_json(broken_links, filename="broken_links_list.json"):
     """Saves the broken links to a JSON file."""
     with open(filename, mode='w') as file:
         json.dump(broken_links, file, indent=4)
@@ -97,7 +97,7 @@ async def crawl_website(session, start_url, max_workers=20):
     return broken_links_list
 
 async def main():
-    start_url = 'https://www.wikipedia.org/'  
+    start_url = 'https://www.google.com/'  
     
     async with aiohttp.ClientSession() as session:
         broken_links = await crawl_website(session, start_url)
