@@ -13,5 +13,5 @@ function isPalindrome(s) {
     return true;
 }
 
-let str = "madam i umbrella";
+let str = "545";
 console.log(isPalindrome(str));
