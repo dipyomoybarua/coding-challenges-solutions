@@ -10,7 +10,7 @@ def common_letters(str1, str2):
     for char in common:
         print(char)
 
-# Example usage:
+#usage:
 string1 = "Hello"
 string2 = "How are you"
 
