@@ -9,7 +9,7 @@ from selenium.common.exceptions import TimeoutException
 BASE_URL = "https://www.amazon.in" 
 SEARCH_TERM = "lg soundbar"
 MAX_WAIT_TIME = 15  
-OUTPUT_FILE = "amazon_lg_soundbars.json"
+OUTPUT_FILE = "amazon_lg_soundbars_result.json"
 
 # Sets up the Chrome WebDriver
 def configure_driver():
