@@ -1,23 +1,23 @@
 [
     {
-        "price": 6999,
-        "name": "(refurbished) lg soundbar sp2, 100w 2.1ch home theatre system, built-in subwoofer for powerful bass in eco-friendly fabric wrapped design, ai sound pro, bluetooth, hdmi"
-    },
-    {
-        "price": 8498,
-        "name": "lg new launch sq75tr,600w,5.1.1ch,dolby atmos,center up-firing speaker,ai sound pro,wow synergy,wireless subwoofer,rear speaker inbuilt receiver,qned matching bracket inside(2024 qned tv),black"
-    },
-    {
-        "price": 8998,
-        "name": "lg new launch soundbar s77ty, 400w, 3.1.3ch, dolby atmos & dts: x, tripple up-firing speaker, ai sound pro, wow synergy, triple level spatial sound, smart up-mixer, vrr/allm /120hz, wireless subwoofer"
-    },
-    {
-        "price": 10999,
+        "price": 2799,
         "name": "lg new launch soundbar sq70ty, 400w, 3.1.1ch, dolby atmos & dts: x, hi-res audio, center up-firing speaker, ai sound pro, wow synergy, wireless subwoofer, qned matching bracket inside (2024 qned tv)"
     },
     {
+        "price": 7499,
+        "name": "lg spq8-s, 140w, 2.0 ch, wireless rear speaker kit compatible with sc9s sound bar"
+    },
+    {
+        "price": 10999,
+        "name": "lg sound bar snc4r, 4.1 ch, 420w soundbar with wireless subwoofer, wireless rear speaker, black"
+    },
+    {
+        "price": 10999,
+        "name": "lg sound bar s75q 380 w steel"
+    },
+    {
         "price": 12990,
-        "name": "lg soundbar s40q, 300w dolby digital soundbar for tv with subwoofer, 2.1ch home theatre system, deep bass, bluetooth, hdmi"
+        "name": "lg new launch soundbar s77ty, 400w, 3.1.3ch, dolby atmos & dts: x, tripple up-firing speaker, ai sound pro, wow synergy, triple level spatial sound, smart up-mixer, vrr/allm /120hz, wireless subwoofer"
     },
     {
         "price": 16990,
@@ -33,14 +33,18 @@
     },
     {
         "price": 30490,
-        "name": "lg sound bar sc9s, 3.1.3 ch, 400w (bluetooth, hdmi, optical connectivity) perfect matching for oled c2/c3 tv with imax enhanced, dolby atmos soundbar, black"
+        "name": "(refurbished) lg soundbar sp2, 100w 2.1ch home theatre system, built-in subwoofer for powerful bass in eco-friendly fabric wrapped design, ai sound pro, bluetooth, hdmi"
     },
     {
         "price": 31990,
-        "name": "lg sound bar s75q 380 w steel"
+        "name": "lg new launch sq75tr,600w,5.1.1ch,dolby atmos,center up-firing speaker,ai sound pro,wow synergy,wireless subwoofer,rear speaker inbuilt receiver,qned matching bracket inside(2024 qned tv),black"
     },
     {
         "price": 33239,
-        "name": "lg sound bar snc4r, 4.1 ch, 420w soundbar with wireless subwoofer, wireless rear speaker, black"
+        "name": "lg sound bar sc9s, 3.1.3 ch, 400w (bluetooth, hdmi, optical connectivity) perfect matching for oled c2/c3 tv with imax enhanced, dolby atmos soundbar, black"
+    },
+    {
+        "price": 38009,
+        "name": "lg soundbar s40q, 300w dolby digital soundbar for tv with subwoofer, 2.1ch home theatre system, deep bass, bluetooth, hdmi"
     }
 ]

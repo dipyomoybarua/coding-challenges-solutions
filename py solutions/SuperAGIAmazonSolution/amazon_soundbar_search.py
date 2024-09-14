@@ -55,7 +55,7 @@ def extract_product_info(driver):
             price_element = product_prices[i]
             price = int(price_element.text.replace(",", ""))
         except IndexError:
-            continue
+            price = 0  # Assign 0 if price not available
         
         if "lg" in product_name:
             products.append((price, product_name))
@@ -85,7 +85,8 @@ def main():
     The main function that have the entire process:
     1. Configures and initializes the WebDriver.
     2. Opens Amazon and searches for 'LG Soundbar'.
-    3. Extracts product names and prices from the search results.
+    3. Extracts product names and prices from the search results. 
+    If no price is found, it defaults to 0.
     4. Sorts the products by price.
     5. Saves the sorted products to a JSON file.
     6. Prints the sorted products.
