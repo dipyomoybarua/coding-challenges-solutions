@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from amazon_page_elements import PRICE_ELEMENTS_SELECTORS,PRODUCT_NAME_SELECTORS,SEARCH_BOX_SELECTOR
 
 # Constants declaration
 BASE_URL = "https://www.amazon.in" 
@@ -25,7 +26,7 @@ def open_amazon_and_search(driver, base_url, search_term):
     try:
         # Pauses until the search field is visible, inputs the keyword and sends the request
         search_box = WebDriverWait(driver, MAX_WAIT_TIME).until(
-            EC.presence_of_element_located((By.ID, "twotabsearchtextbox"))
+            EC.presence_of_element_located((By.ID, SEARCH_BOX_SELECTOR))
         )
         search_box.send_keys(search_term) # Input keyword
         search_box.submit()# Send the search request
@@ -37,10 +38,10 @@ def extract_product_info(driver):
     try:
         # Wait for product names and prices to be present on the page
         product_names = WebDriverWait(driver, MAX_WAIT_TIME).until(
-            EC.presence_of_all_elements_located((By.CSS_SELECTOR, "span.a-size-medium.a-color-base.a-text-normal"))
+            EC.presence_of_all_elements_located((By.CSS_SELECTOR, PRODUCT_NAME_SELECTORS))
         )
         product_prices = WebDriverWait(driver, MAX_WAIT_TIME).until(
-            EC.presence_of_all_elements_located((By.CSS_SELECTOR, "span.a-price-whole"))
+            EC.presence_of_all_elements_located((By.CSS_SELECTOR, PRICE_ELEMENTS_SELECTORS ))
         )
     except TimeoutException:
         raise Exception("Failed to locate product elements within the specified time")
