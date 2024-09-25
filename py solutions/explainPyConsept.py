@@ -74,17 +74,17 @@ class Employee(Person):
 # Function to demonstrate usage of Person and Employee classes
 def main():
     print("Demonstrating Person class:")
-    person = Person("Dipyomoy Barua", 32, "Male")
+    person = Person("Dipyomoy Barua", 20, "Male")
     print(person)
     person.greet()
     person.celebrate_birthday()
 
     print("\n Demonstrating Employee class:")
-    employee = Employee("Sporty", 30, "Female",
+    employee = Employee("Sporty", 20, "Female",
         "E12345",
         "IT Department",
         "Software Engineer",
-        2200000,
+        20000,
         "2019-01-01")
     
     print("This is employee details that is being declared above:- ", employee)
